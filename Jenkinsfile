@@ -65,6 +65,18 @@ pipeline{
                 }
             }
         }
+        stage{
+            steps{
+                script{
+                    kubeconfig(credentialsId: 'kubeconfig', serverUrl: 'https://172.31.43.91:6443'){
+                        dir ("kubernetes/"){
+                            sh 'helm list'
+                            sh 'helm upgrade --install --set image.repository="172.31.41.85:8083/springapp" --set image.tag="${VERSION}" myjavaapp myapp/ ' 
+                        }
+                    }
+                }
+            }
+        }
         
      }
      
